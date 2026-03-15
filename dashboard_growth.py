@@ -9,8 +9,10 @@ import numpy as np
 import streamlit as st
 from pathlib import Path
 
-BASE_DIR = Path(r"C:/Users/Monefica 01/Desktop/TCC_2026/Growth")
+BASE_DIR = Path(__file__).resolve().parent
 CSV_DIR = BASE_DIR / "CSV"
+PATH_CONSOLIDADO = CSV_DIR / "consolidado_growth.csv"
+PATH_RANKING = CSV_DIR / "ranking_growth.csv"
 PATH_CONSOLIDADO = CSV_DIR / "consolidado_growth.csv"
 PATH_RANKING = CSV_DIR / "ranking_growth.csv"
 
