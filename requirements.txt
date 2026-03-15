@@ -1,4 +1,4 @@
-pandas
-numpy
-streamlit
-pathlib
+streamlit==1.37.1
+pandas==2.2.2
+numpy==1.26.4
+altair==5.3.0
