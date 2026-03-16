@@ -9,10 +9,11 @@ import streamlit as st
 from pathlib import Path
 
 # Versão web: caminhos relativos (repo no GitHub / Streamlit Cloud)
+# Aceita CSV na pasta CSV/ ou na raiz do repo (junto do app_growth.py)
 BASE_DIR = Path(__file__).resolve().parent
 CSV_DIR = BASE_DIR / "CSV"
-PATH_CONSOLIDADO = CSV_DIR / "consolidado_growth.csv"
-PATH_RANKING = CSV_DIR / "ranking_growth.csv"
+PATH_CONSOLIDADO = CSV_DIR / "consolidado_growth.csv" if (CSV_DIR / "consolidado_growth.csv").exists() else BASE_DIR / "consolidado_growth.csv"
+PATH_RANKING = CSV_DIR / "ranking_growth.csv" if (CSV_DIR / "ranking_growth.csv").exists() else BASE_DIR / "ranking_growth.csv"
 
 
 def valor_br_para_numero(s):
@@ -30,7 +31,12 @@ def valor_br_para_numero(s):
 @st.cache_data
 def carregar_dados():
     if not PATH_CONSOLIDADO.exists() or not PATH_RANKING.exists():
-        return None, "Arquivos consolidado_growth e/ou ranking_growth não encontrados em Growth/CSV/."
+        msg = (
+            "Arquivos consolidado_growth e/ou ranking_growth não encontrados. "
+            f"Procurados em: **{BASE_DIR.resolve()}** (raiz do repo) ou em **CSV/** dentro dela. "
+            "Inclua no GitHub os arquivos **consolidado_growth.csv** e **ranking_growth.csv** na raiz ou na pasta CSV/."
+        )
+        return None, msg
 
     con = pd.read_csv(PATH_CONSOLIDADO, sep=";", encoding="latin1")
     rank = pd.read_csv(PATH_RANKING, sep=";", encoding="latin1")
